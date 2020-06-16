@@ -26,6 +26,12 @@ let router = new Router({
           meta:{select:'/menu'}
         },
         {
+          path:'menu/:menuid',
+          component:()=>import('../components/pages/Menu/info'),
+          // 设置自定义属性，用来告知页面加载时，左侧那个菜单选中
+          meta:{select:'/menu'}
+        },
+        {
           path:'user',
           component:()=>import('../components/pages/Users/index'),
           meta:{select:'/user'}
