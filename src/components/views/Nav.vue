@@ -11,13 +11,16 @@
       <i class="el-icon-menu"></i>
       <span slot="title">首页</span>
     </el-menu-item>
-    <el-submenu index="1" v-for="menu of menus" :key="menu.id">
+    <el-submenu index="1" v-for="navitem of navMenus" :key="navitem.id">
       <template slot="title">
         <i class="el-icon-s-tools"></i>
-        <span>{{menu.title}}</span>
+        <span>{{navitem.title}}</span>
       </template>
-      <el-menu-item :index="list.url" v-for="list of lists" :key="list.id" v-if="list.pid==menu.id">{{list.title}}</el-menu-item>
-      <!-- <el-menu-item index="/user">{{item.title}}</el-menu-item> -->
+      <el-menu-item
+        :index="subitem.url"
+        v-for="(subitem,index) of navitem.children"
+        :key="index.toString()"
+      >{{subitem.title}}</el-menu-item>
     </el-submenu>
   </el-menu>
 </template>
@@ -28,27 +31,34 @@ export default {
     return {
       defaultActive: "",
       menus: [],
-      lists: []
+      lists: [],
+      navMenus: [],
     };
   },
   mounted() {
     // 页面加载时，控制左侧菜单选中效果
     // 把当前路由中的path属性赋值给默认选中变量
     this.defaultActive = this.$route.meta.select;
-    this.axios.get("/api/menulist").then(res => {
-      console.log(res.data.list);
-      res.data.list.find(item => {
-        if (item.type == 1) {
-          this.menus.push(item);
-        } else {
-          this.lists.push(item);
-        }
-      });
-    });
+    this.getNavMenu();
   },
   watch: {
     $route(newVal) {
       this.defaultActive = newVal.meta.select;
+      this.getNavMenu();
+    }
+  },
+  methods: {
+    getNavMenu() {
+    //   this.axios({ 
+    //     url:'/api/menulist',
+    //     params:{istree:1}
+    //     }).then(res => {
+    //     this.navMenus = res.data.list;
+    // })
+    if(localStorage.getItem('htuser')){
+      let info = JSON.parse(localStorage.getItem('htuser'));
+      this.navMenus = info.menus;
+    }
     }
   }
 };

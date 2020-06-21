@@ -66,17 +66,13 @@ export default {
     };
   },
   mounted() {
-    this.axios({
-      url: "/api/menulist"
-    }).then(res => {
+    this.http.get( "/api/menulist").then(res => {
       this.menus = res.data.list; //把接口返回的数据赋值给页面中的变量，用于页面展示内容
     });
     if (this.$route.params.menuid) {
       this.tip = "修改";
-      this.axios({
-        url: "/api/menuinfo",
-        params: { id: this.$route.params.menuid }
-      }).then(res => {
+      this.http.get( "/api/menuinfo", { id: this.$route.params.menuid }
+      ).then(res => {
         this.info = res.data.list;
         // 处理和数据库中不一样的数据类型
         this.info.status = this.info.status == 1 ? true : false;
@@ -96,7 +92,7 @@ export default {
             data.id = this.$route.params.menuid;
           }
           data.status = data.status ? 1 : 2;
-          axios.post(url, data).then(res => {
+          this.http.post(url, data).then(res => {
             if (res.data.code == 200) {
               this.$router.push("/menu");
             } else {

@@ -15,12 +15,9 @@ module.exports = {
         target: 'http://localhost:3000',//目标域名地址
         changeOrigin: true,//允许跨域
       },
-      '/what': {
-        target: 'http://suggestion.baidu.com',
+      '/uploads': {
+        target: 'http://localhost:3000',
         changeOrigin: true,
-        pathRewrite: {
-          '^/what': ''
-        }
       }
     },
 

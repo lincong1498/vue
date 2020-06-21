@@ -25,4 +25,8 @@ body,
 .el-breadcrumb{
   margin-bottom: 20px;
 }
+.el-pagination{
+  float: right;
+  margin-top:10px;
+}
 </style>

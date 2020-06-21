@@ -1,6 +1,14 @@
 <template>
   <el-container>
-    <el-header>header</el-header>
+    <el-header>
+      <div class="left">
+        <p>欢迎来到小U商城后台管理系统</p>
+      </div>
+      <div class="right">
+        <p>{{userinfo.username}}</p>
+        <el-link type="danger" @click="logout">退出</el-link>
+      </div>
+    </el-header>
     <el-container>
       <el-aside style="width:200px">
         <v-Nav></v-Nav>
@@ -14,11 +22,31 @@
 </template>
 
 <script>
-import vNav from '../views/Nav'
+import vNav from "../views/Nav";
 export default {
-    components: {
-        vNav
+  data() {
+    return {
+      userinfo: {
+        username: ""
+      }
+    };
+  },
+  methods: {
+    logout(){
+      localStorage.removeItem('htuser');
+      this.$router.push('/login')
     }
+  },
+  mounted() {
+    let info = localStorage.getItem('htuser')?JSON.parse(localStorage.getItem('htuser')):null;
+    this.userinfo = info;
+  },
+  components: {
+    vNav
+  },
+  // beforeRouteEnter(to, from, next) {
+    
+  // }
 };
 </script>
 
@@ -29,6 +57,13 @@ export default {
 }
 .el-header {
   background: skyblue;
+  line-height: 60px;
+  display: flex;
+}
+.right {
+  position: absolute;
+  right: 20px;
+  display: flex;
 }
 .el-footer {
   background: slateblue;

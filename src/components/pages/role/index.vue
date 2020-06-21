@@ -2,11 +2,11 @@
   <div>
     <el-breadcrumb>
       <el-breadcrumb-item :to="{path:'/home'}">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>菜单列表</el-breadcrumb-item>
+      <el-breadcrumb-item>角色列表</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-button type="primary" @click="$router.push('/menu/add')">添加</el-button>
+    <el-button type="primary" @click="$router.push('/role/add')">添加</el-button>
     <el-table
-      :data="menus"
+      :data="roles"
       style="width:100%"
       stripe
       border
@@ -15,11 +15,8 @@
     >
       <!-- row-key 展示数据结构时必须设置的属性，值为唯一标识数据的值 -->
       <!-- tree-props告知表格，自己数据的字段名 -->
-      <el-table-column label="菜单编号" prop="id"></el-table-column>
-      <el-table-column prop="title" label="菜单名称"></el-table-column>
-      <el-table-column prop="pid" label="上级菜单"></el-table-column>
-      <el-table-column prop="icon" label="菜单图标"></el-table-column>
-      <el-table-column prop="url" label="菜单地址"></el-table-column>
+      <el-table-column label="角色编号" prop="id"></el-table-column>
+      <el-table-column prop="rolename" label="角色名称"></el-table-column>
       <el-table-column label="状态">
         <template slot-scope="item">
           <el-tag v-if="item.row.status ==1" effect="dark">启用</el-tag>
@@ -40,13 +37,12 @@
 export default {
   data() {
     return {
-      menus: []
+      roles: []
     };
   },
   mounted() {
-    this.http.get("/api/menulist", { istree: 1 }).then(res => {
-
-      this.menus = res.data.list;
+    this.http.get("/api/rolelist", { istree: 1 }).then(res => {
+      this.roles = res.data.list;
     });
   },
   methods: {
@@ -57,7 +53,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.http.post("/api/menudelete", { id }).then(res => {
+          this.http.post("/api/roledelete", { id }).then(res => {
             if (res.data.code == 200) {
               this.menus = res.data.list;
               this.$message({
@@ -77,7 +73,7 @@ export default {
         });
     },
     edit(id) {
-      this.$router.push("/menu/" + id);
+      this.$router.push("/role/" + id);
     }
   }
 };
