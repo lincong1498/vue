@@ -151,7 +151,6 @@ export default {
         .then(res => {
           this.info = res.data.list;
           if (this.info.first_cateid) {
-            console.log(this.info.first_cateid);
             this.cateChange(this.info.first_cateid);
           }
           if (this.info.specsid) {
@@ -163,6 +162,7 @@ export default {
             ? this.info.specsattr.split(",")
             : [];
           this.editor.txt.html(this.info.description);
+          console.log(this.info);
         });
     }
   },
@@ -189,7 +189,7 @@ export default {
       } else {
         this.http.get("/api/catelist", { pid: e }).then(res => {
           if (res.data.code == 200) {
-            this.secondCates = res.data.list ? res.data.list : "";
+            this.secondCates = res.data.list[e-1].children ? res.data.list[e-1].children : "";
           }
         });
       }

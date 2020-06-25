@@ -13,8 +13,6 @@
       :tree-props="{children:'children'}"
       row-key="id"
     >
-      <!-- row-key 展示数据结构时必须设置的属性，值为唯一标识数据的值 -->
-      <!-- tree-props告知表格，自己数据的字段名 -->
       <el-table-column label="角色编号" prop="id"></el-table-column>
       <el-table-column prop="rolename" label="角色名称"></el-table-column>
       <el-table-column label="状态">

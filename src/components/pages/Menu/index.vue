@@ -37,6 +37,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -45,7 +46,6 @@ export default {
   },
   mounted() {
     this.http.get("/api/menulist", { istree: 1 }).then(res => {
-
       this.menus = res.data.list;
     });
   },

@@ -5,7 +5,7 @@
         <p>欢迎来到小U商城后台管理系统</p>
       </div>
       <div class="right">
-        <p>{{userinfo.username}}</p>
+        <p>{{userInfo.username}}</p>
         <el-link type="danger" @click="logout">退出</el-link>
       </div>
     </el-header>
@@ -23,24 +23,28 @@
 
 <script>
 import vNav from "../views/Nav";
+import {mapGetters,mapActions} from 'vuex'
 export default {
   data() {
     return {
-      userinfo: {
-        username: ""
-      }
+     
     };
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   methods: {
+    ...mapActions(['setAdminUserSync']),
     logout(){
-      localStorage.removeItem('htuser');
+      this.setAdminUserSync({})
+      // localStorage.removeItem('htuser');
       this.$router.push('/login')
     }
   },
-  mounted() {
-    let info = localStorage.getItem('htuser')?JSON.parse(localStorage.getItem('htuser')):null;
-    this.userinfo = info;
-  },
+  // mounted() {
+  //   let info = localStorage.getItem('htuser')?JSON.parse(localStorage.getItem('htuser')):null;
+  //   this.userinfo = info;
+  // },
   components: {
     vNav
   },

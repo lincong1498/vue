@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 Vue.use(Router)
-
 let router = new Router({
   routes: [
     {
@@ -43,6 +45,23 @@ let router = new Router({
           meta: { select: '/role' }
         },
         {
+          path: 'banner',
+          component: () => import('../components/pages/banner/index'),
+          meta: { select: '/banner' }
+        },
+        {
+          path: 'banner/add',
+          component: () => import('../components/pages/banner/info'),
+          // 设置自定义属性，用来告知页面加载时，左侧那个菜单选中
+          meta: { select: '/banner' }
+        },
+        {
+          path: 'banner/:bannerid',
+          component: () => import('../components/pages/banner/info'),
+          // 设置自定义属性，用来告知页面加载时，左侧那个菜单选中
+          meta: { select: '/banner' }
+        },
+        {
           path: 'menu/:menuid',
           component: () => import('../components/pages/Menu/info'),
           // 设置自定义属性，用来告知页面加载时，左侧那个菜单选中
@@ -63,6 +82,38 @@ let router = new Router({
           component: () => import('../components/pages/Users/info'),
           // 设置自定义属性，用来告知页面加载时，左侧那个菜单选中
           meta: { select: '/user' }
+        },
+        {
+          path: 'member',
+          component: () => import('../components/pages/member/index'),
+          meta: { select: '/member' }
+        },
+        {
+          path: 'member/add',
+          component: () => import('../components/pages/member/info'),
+          meta: { select: '/member' }
+        },
+        {
+          path: 'member/:memberid',
+          component: () => import('../components/pages/member/info'),
+          // 设置自定义属性，用来告知页面加载时，左侧那个菜单选中
+          meta: { select: '/member' }
+        },
+        {
+          path: 'seck',
+          component: () => import('../components/pages/seck/index'),
+          meta: { select: '/seck' }
+        },
+        {
+          path: 'seck/add',
+          component: () => import('../components/pages/seck/info'),
+          meta: { select: '/seck' }
+        },
+        {
+          path: 'seck/:seckid',
+          component: () => import('../components/pages/seck/info'),
+          // 设置自定义属性，用来告知页面加载时，左侧那个菜单选中
+          meta: { select: '/seck' }
         },
         {
           path: 'category',
@@ -120,9 +171,12 @@ let router = new Router({
     },
   ]
 })
+import store from '../store'
+
 router.beforeEach((to, from, next) => {
-  let userinfo = localStorage.getItem("htuser")?JSON.parse(localStorage.getItem("htuser")): null;
-  if (userinfo) {
+  let userinfo = store.state.adminUser;
+  // let userinfo = localStorage.getItem("htuser")?JSON.parse(localStorage.getItem("htuser")): null;
+  if (userinfo.token) {
     userinfo.menus_url.push('/');
     userinfo.menus_url.push('/home');
     let menuarr = userinfo.menus_url;

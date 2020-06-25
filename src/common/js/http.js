@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from '../../store'
 // 携带令牌的get方法
 function get(url, params = {}) {
     const token = localStorage.getItem('htuser')?JSON.parse(localStorage.getItem('htuser')).token:'';
@@ -7,7 +8,7 @@ function get(url, params = {}) {
             url,
             params,
             headers: {
-                'Authorization': token
+                'Authorization': store.state.adminUser.token
             }
         }).then(response => {
             res(response)
@@ -25,7 +26,7 @@ function post(url, data = {}) {
             data,
             method:'post',
             headers: {
-                'Authorization': token
+                'Authorization': store.state.adminUser.token
             }
         }).then(response => {
             res(response)

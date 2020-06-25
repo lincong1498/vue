@@ -11,11 +11,15 @@ Vue.use(ElementUI);
 Vue.config.productionTip = false
 Vue.prototype.axios = axios;
 Vue.prototype.http = http;
+import apis from './common/js/app'
+Vue.prototype.apis = apis;
+import store from './store'
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   // components: { App },
   // template: '<App/>'
   render: h => h(App)

@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   data() {
     return {
@@ -28,6 +29,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['setAdminUserSync']),
     submit(loginForm) {
       this.axios({
         url: "/api/userlogin",
@@ -35,7 +37,8 @@ export default {
         data: this.info
       }).then(res => {
         if (res.data.code === 200) {
-          localStorage.setItem("htuser", JSON.stringify(res.data.list));
+          this.setAdminUserSync(res.data.list)
+          // localStorage.setItem("htuser", JSON.stringify(res.data.list));
           this.$router.push({ path: "/home" });
         } else {
           this.$message(res.data.msg);

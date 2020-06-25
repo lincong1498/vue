@@ -58,8 +58,9 @@ export default {
   },
   mounted() {
     this.http.get("/api/menulist", { istree: 1 }).then(res => {
-      this.menus = res.data.list; //把接口返回的数据赋值给页面中的变量，用于页面展示内容
-      this.defaultKeys = this.info.menus ? this.info.menus.split(",") : [];
+      // console.log(res.data)
+      this.menus = res.data.list; 
+      
     });
     if (this.$route.params.roleid) {
       this.tip = "修改";
@@ -69,7 +70,7 @@ export default {
           this.info = res.data.list;
           // 处理和数据库中不一样的数据类型
           this.info.status = this.info.status == 1 ? true : false;
-          // this.info.type =this.info.type.toString();
+          this.defaultKeys = this.info.menus ? this.info.menus.split(",") : [];
         });
     }
   },
